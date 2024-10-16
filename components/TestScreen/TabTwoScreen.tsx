@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { StyleSheet, ScrollView, FlatList } from "react-native";
 import { Text, View } from "@/components/Themed";
-import Header from "@/components/TestScreen/Header";
-import SegmentedControl from "@/components/TestScreen/SegmentedControl";
-import ListItem from "@/components/TestScreen/ListItem";
+import Header from "@/components/Header"; // Import Header
+import SegmentedControl from "@/components/SegmentedControl"; // Import Segmented Control
+import ListItem from "@/components/ListItem"; // Import ListItem
 
 interface LocationItem {
   id: number;
