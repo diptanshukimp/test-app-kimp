@@ -1,27 +1,92 @@
-import React from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
-import ListSection from './ListSection';
+import React, { useState } from "react";
+import { StyleSheet, ScrollView, FlatList } from "react-native";
+import { Text, View } from "@/components/Themed";
+import ListItem from "./ListItem";
+import Header from "./Header";
+import TabSelector from "./TabSelector";
 
-// Example data
-const cityData = [
-  { title: 'Oshawa ON', subtitle: 'Durham, Ontario' },
-  { title: 'Rural Oshawa, Oshawa ON - 3233215', subtitle: 'Durham, Ontario' },
+
+interface LocationItem {
+  id: number;
+  name: string;
+  subtitle: string;
+}
+
+const cities: LocationItem[] = [
+  { id: 1, name: "Oshawa ON", subtitle: "Durham, Ontario" },
+  {
+    id: 2,
+    name: "Rural Oshawa, Oshawa ON - 3233215",
+    subtitle: "Durham, Ontario",
+  },
+  {
+    id: 3,
+    name: "Rural Oshawa, Oshawa ON - 3233215",
+    subtitle: "Durham, Ontario",
+  },
 ];
 
-const neighborhoodData = [
-  { title: 'Downtown Oshawa, Oshawa ON', subtitle: 'Durham, Ontario' },
-  { title: 'Beaton Oshawa, Oshawa ON', subtitle: 'Durham, Ontario' },
+const neighborhoods: LocationItem[] = [
+  { id: 1, name: "Downtown Oshawa, Oshawa ON", subtitle: "Durham, Ontario" },
+  { id: 2, name: "Beaton Oshawa, Oshawa ON", subtitle: "Durham, Ontario" },
 ];
 
-const TestScreen: React.FC = () => {
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView>
-        <ListSection title="Cities" data={cityData} />
-        <ListSection title="Neighborhood" data={neighborhoodData} />
-      </ScrollView>
-    </SafeAreaView>
+export default function TestScreen({ navigation }: any) {
+  const [selectedTab, setSelectedTab] = useState("Buy");
+
+  const renderListItem = ({ item }: { item: LocationItem }) => (
+    <ListItem name={item.name} subtitle={item.subtitle} />
   );
-};
 
-export default TestScreen;
+  return (
+    <View style={styles.container}>
+      {/* Use the Header Component */}
+      <Header navigation={navigation} />
+
+      <Text style={styles.title}>Toronto</Text>
+
+      {/* Use the Segmented Control Component */}
+      <TabSelector
+        selectedTab={selectedTab}
+        setSelectedTab={setSelectedTab}
+      />
+
+      <ScrollView>
+        <Text style={styles.sectionTitle}>Cities</Text>
+        <FlatList
+          data={cities}
+          renderItem={renderListItem}
+          keyExtractor={(item) => item.id.toString()}
+          scrollEnabled={false}
+        />
+
+        <Text style={styles.sectionTitle}>Neighbourhood</Text>
+        <FlatList
+          data={neighborhoods}
+          renderItem={renderListItem}
+          keyExtractor={(item) => item.id.toString()}
+          scrollEnabled={false}
+        />
+      </ScrollView>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginTop: 20,
+    marginBottom: 10,
+  },
+});

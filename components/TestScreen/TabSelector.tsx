@@ -1,24 +1,27 @@
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import React from "react";
+import { StyleSheet, TouchableOpacity } from "react-native";
+import { Text, View } from "@/components/Themed";
 
-// Define the props for the component
 interface TabSelectorProps {
   selectedTab: string;
   setSelectedTab: (tab: string) => void;
 }
 
-const tabs = ['Buy', 'Rent', 'Sold'];
-
-const TabSelector: React.FC<TabSelectorProps> = ({ selectedTab, setSelectedTab }) => {
+const TabSelector: React.FC<TabSelectorProps> = ({
+  selectedTab,
+  setSelectedTab,
+}) => {
   return (
-    <View className="flex-row justify-between p-2 bg-gray-100">
-      {tabs.map((tab) => (
+    <View style={styles.tabContainer}>
+      {["Buy", "Rent", "Sold"].map((tab) => (
         <TouchableOpacity
           key={tab}
           onPress={() => setSelectedTab(tab)}
-          className={`p-2 ${selectedTab === tab ? 'bg-white' : 'bg-transparent'} rounded-md`}
+          style={[styles.tab, selectedTab === tab && styles.activeTab]}
         >
-          <Text className={`text-sm ${selectedTab === tab ? 'font-bold' : 'font-normal'}`}>
+          <Text
+            style={selectedTab === tab ? styles.activeTabText : styles.tabText}
+          >
             {tab}
           </Text>
         </TouchableOpacity>
@@ -28,3 +31,35 @@ const TabSelector: React.FC<TabSelectorProps> = ({ selectedTab, setSelectedTab }
 };
 
 export default TabSelector;
+
+const styles = StyleSheet.create({
+  tabContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    backgroundColor: "#f0f0f0",
+    padding: 10,
+    borderRadius: 8,
+  },
+  tab: {
+    flex: 1,
+    paddingVertical: 10,
+    borderRadius: 8,
+    backgroundColor: "#e0e0e0",
+    alignItems: "center",
+    marginHorizontal: 5,
+  },
+  activeTab: {
+    backgroundColor: "#ffffff",
+    borderColor: "#d3d3d3",
+    borderWidth: 1,
+  },
+  tabText: {
+    fontSize: 16,
+    color: "#000",
+  },
+  activeTabText: {
+    fontSize: 16,
+    color: "#000",
+    fontWeight: "bold",
+  },
+});
