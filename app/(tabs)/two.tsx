@@ -41,9 +41,7 @@ export default function TabTwoScreen({ navigation }: any) {
     <View style={styles.container}>
       {/* Use the Header Component */}
       <Header navigation={navigation} />
-
-      <Text style={styles.title}>Toronto</Text>
-
+      
       {/* Use the Segmented Control Component */}
       <SegmentedControl
         selectedTab={selectedTab}

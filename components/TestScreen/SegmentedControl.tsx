@@ -36,22 +36,30 @@ const styles = StyleSheet.create({
   tabContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    backgroundColor: "#f0f0f0",
-    padding: 10,
+    backgroundColor: "#f9fafc",
+    paddingHorizontal: 2,
+    paddingVertical:5,
     borderRadius: 8,
   },
   tab: {
     flex: 1,
     paddingVertical: 10,
     borderRadius: 8,
-    backgroundColor: "#e0e0e0",
     alignItems: "center",
     marginHorizontal: 5,
   },
   activeTab: {
     backgroundColor: "#ffffff",
     borderColor: "#d3d3d3",
-    borderWidth: 1,
+    borderWidth: 0.5,
+    paddingHorizontal: 12,
+
+    // Add box shadow for the active tab
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 }, // Shadow moves slightly downwards
+    shadowOpacity: 0.2,
+    shadowRadius: 3, // Blurry shadow effect
+    elevation: 4, // Add elevation for Android
   },
   tabText: {
     fontSize: 16,
