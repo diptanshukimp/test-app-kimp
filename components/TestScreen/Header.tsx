@@ -65,9 +65,6 @@ const styles = StyleSheet.create({
     elevation: 2, // Shadow for Android
   },
   searchInputLight: {
-    backgroundColor: "#fff",
-    borderColor: "#ddd",
-    borderWidth: 1,
   },
   searchInputDark: {
   },

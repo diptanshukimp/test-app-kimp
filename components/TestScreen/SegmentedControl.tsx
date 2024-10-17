@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     // Add box shadow for the active tab
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 }, // Shadow moves slightly downwards
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.1,
     shadowRadius: 3, // Blurry shadow effect
     elevation: 4, // Add elevation for Android
   },
