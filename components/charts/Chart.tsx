@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   VictoryChart,
   VictoryLine,
@@ -45,6 +45,12 @@ const dataDaysOnMarket: DataPoint[] = [
 const Chart: React.FC = () => {
   const { width } = Dimensions.get("window");
 
+  // Calculate a multiplier to scale the right Y-axis for Days on Market
+  const rightAxisMultiplier = useMemo(() => {
+    const maxPrice = Math.max(...dataSoldPrice.map((item) => item.price || 0));
+    return Math.ceil(maxPrice / 40); // Roughly scales days into the price range
+  }, []);
+
   return (
     <View style={{ height: 400, width: "100%" }}>
       <VictoryChart
@@ -53,7 +59,7 @@ const Chart: React.FC = () => {
         theme={VictoryTheme.material}
         domainPadding={{ x: [20, 20], y: [20, 20] }}
         padding={{ left: 60, right: 60, top: 20, bottom: 50 }}
-        domain={{ y: [0, 1000000] }} // Adjusted the domain for better scaling
+        domain={{ y: [0, 1000000] }} // Adjust the domain for better scaling
       >
         <VictoryLegend
           x={50}
@@ -70,7 +76,7 @@ const Chart: React.FC = () => {
         <VictoryBar
           data={dataDaysOnMarket}
           x="month"
-          y={(datum) => (datum.days ?? 0) * 25000} // Scale to make it more visible
+          y={(datum) => (datum.days ?? 0) * rightAxisMultiplier} // Scale days for visibility
           labelComponent={<VictoryTooltip />}
           style={{
             data: { fill: "#4caf50", width: 20 },
@@ -118,8 +124,8 @@ const Chart: React.FC = () => {
           dependentAxis
           orientation="right"
           offsetX={50}
-          tickValues={[0, 10, 20, 30, 40].map((x) => x * 25000)} // Multiply tick values by 25,000
-          tickFormat={(x: any) => `${x / 25000} D`} // Scale down in the label for readability
+          tickValues={[0, 10, 20, 30, 40].map((x) => x * rightAxisMultiplier)} // Scaled for days
+          tickFormat={(x: any) => `${x / rightAxisMultiplier} D`} // Display original days
           style={{
             axis: { stroke: "transparent" },
             ticks: { stroke: "transparent" },
