@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import {
   VictoryChart,
   VictoryLine,
@@ -45,11 +45,10 @@ const dataDaysOnMarket: DataPoint[] = [
 const Chart: React.FC = () => {
   const { width } = Dimensions.get("window");
 
-  // Calculate a multiplier to scale the right Y-axis for Days on Market
-  const rightAxisMultiplier = useMemo(() => {
-    const maxPrice = Math.max(...dataSoldPrice.map((item) => item.price || 0));
-    return Math.ceil(maxPrice / 40); // Roughly scales days into the price range
-  }, []);
+  // Calculate the right axis multiplier directly
+  const maxPrice = Math.max(...dataSoldPrice.map((item) => item.price || 0));
+  const rightAxisMultiplier = Math.ceil(maxPrice / 40); // Roughly scales days into the price range
+
 
   return (
     <View style={{ height: 400, width: "100%" }}>
