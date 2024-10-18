@@ -4,6 +4,7 @@ import { Text, View } from "@/components/Themed";
 import Header from "@/components/TestScreen/Header";
 import SegmentedControl from "@/components/TestScreen/SegmentedControl";
 import ListItem from "@/components/TestScreen/ListItem";
+import Chart from "@/components/charts/Chart";
 
 interface LocationItem {
   id: number;
@@ -64,6 +65,8 @@ export default function TabTwoScreen({ navigation }: any) {
           keyExtractor={(item) => item.id.toString()}
           scrollEnabled={false}
         />
+
+        <Chart/>
       </ScrollView>
     </View>
   );
