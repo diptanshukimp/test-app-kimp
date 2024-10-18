@@ -8,7 +8,7 @@ import {
   VictoryBar,
   VictoryTooltip,
 } from "victory-native";
-import { View, Dimensions } from "react-native";
+import { View, Dimensions, StyleSheet, Text } from "react-native";
 
 type DataPoint = {
   month: string;
@@ -51,94 +51,123 @@ const Chart: React.FC = () => {
 
 
   return (
-    <View style={{ height: 400, width: "100%" }}>
+    <>
+      <Text style={styles.heading}>Toronto</Text>
+      <Text style={styles.chartHeading}>
+        Median Sold Price & Average Days On Market
+      </Text>
+      
+      <View style={{ height: "auto", width: "100%" }}>
       <VictoryChart
-        width={width - 40}
-        height={350}
-        theme={VictoryTheme.material}
-        domainPadding={{ x: [20, 20], y: [20, 20] }}
-        padding={{ left: 60, right: 60, top: 20, bottom: 50 }}
-        domain={{ y: [0, 1000000] }} // Adjust the domain for better scaling
-      >
-        <VictoryLegend
-          x={50}
-          y={10}
-          orientation="horizontal"
-          gutter={20}
-          data={[
-            { name: "Median Sold Price", symbol: { fill: "#e91e63" } },
-            { name: "Average Days On Market", symbol: { fill: "#4caf50" } },
-          ]}
-        />
+          width={width - 40}
+          height={350}
+          theme={VictoryTheme.material}
+          domainPadding={{ x: [20, 20], y: [20, 20] }}
+          padding={{ left: 60, right: 60, top: 20, bottom: 50 }}
+          domain={{ y: [0, 1000000] }} // Adjust the domain for better scaling
+        >
 
-        {/* Bar chart for days on market */}
-        <VictoryBar
-          data={dataDaysOnMarket}
-          x="month"
-          y={(datum) => (datum.days ?? 0) * rightAxisMultiplier} // Scale days for visibility
-          labelComponent={<VictoryTooltip />}
-          style={{
-            data: { fill: "#4caf50", width: 20 },
-          }}
-        />
+          <VictoryLegend
+            x={10} // Move it to the left side
+            y={10} // Adjust vertical position as needed
+            orientation="horizontal"
+            gutter={20}
+            data={[
+              { name: "Median Sold Price", symbol: { fill: "#e91e63", type: "square" } }, // Square symbol
+              { name: "Average Days On Market", symbol: { fill: "#4caf50", type: "square" } }, // Square symbol
+            ]}
+          />
 
-        {/* Line chart for sold price */}
-        <VictoryLine
-          data={dataSoldPrice}
-          x="month"
-          y={(datum) => datum.price ?? 0}
-          labelComponent={<VictoryTooltip />}
-          style={{
-            data: { stroke: "#e91e63", strokeWidth: 2 },
-          }}
-        />
 
-        {/* X-Axis */}
-        <VictoryAxis
-          tickValues={["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct"]}
-          style={{
-            tickLabels: { fontSize: 10, angle: -45, textAnchor: "end" },
-          }}
-        />
+          {/* Bar chart for days on market */}
+          <VictoryBar
+            data={dataDaysOnMarket}
+            barWidth={10}
+            cornerRadius={{ top: 5 }}  // Add a top border radius
+            x="month"
+            y={(datum) => (datum.days ?? 0) * rightAxisMultiplier} // Scale days for visibility
+            labelComponent={<VictoryTooltip />}
+            style={{
+              data: { fill: "#4caf50", width: 20 },
+            }}
+          />
 
-        {/* Left Y-Axis for prices */}
-        <VictoryAxis
-          dependentAxis
-          tickValues={[200000, 400000, 600000, 800000, 1000000]}
-          tickFormat={(x: any) => `$${(x / 1000).toFixed(1)}k`}
-          style={{
-            axis: { stroke: "transparent" },
-            ticks: { stroke: "transparent" },
-            tickLabels: {
-              fill: "#e91e63",
-              fontSize: 10,
-              padding: 5,
-              textAnchor: "middle",
-            },
-          }}
-        />
+          {/* Line chart for sold price */}
+          <VictoryLine
+            data={dataSoldPrice}
+            x="month"
+            y={(datum) => datum.price ?? 0}
+            labelComponent={<VictoryTooltip />}
+            style={{
+              data: { stroke: "#e91e63", strokeWidth: 2 },
+            }}
+          />
 
-        {/* Right Y-Axis for days on market */}
-        <VictoryAxis
-          dependentAxis
-          orientation="right"
-          offsetX={50}
-          tickValues={[0, 10, 20, 30, 40].map((x) => x * rightAxisMultiplier)} // Scaled for days
-          tickFormat={(x: any) => `${x / rightAxisMultiplier} D`} // Display original days
-          style={{
-            axis: { stroke: "transparent" },
-            ticks: { stroke: "transparent" },
-            tickLabels: {
-              fill: "#4caf50",
-              fontSize: 10,
-              padding: 5,
-              textAnchor: "start",
-            },
-          }}
-        />
-      </VictoryChart>
-    </View>
+          {/* X-Axis */}
+          <VictoryAxis
+            tickValues={["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct"]}
+            style={{
+              tickLabels: { fontSize: 10, angle: -45, textAnchor: "end" },
+            }}
+          />
+
+          {/* Left Y-Axis for prices */}
+          <VictoryAxis
+            dependentAxis
+            tickValues={[200000, 400000, 600000, 800000, 1000000]}
+            tickFormat={(x: any) => `$${(x / 1000).toFixed(1)}k`}
+            style={{
+              axis: { stroke: "transparent" },
+              ticks: { stroke: "transparent" },
+              tickLabels: {
+                fill: "#e91e63",
+                fontSize: 10,
+                padding: 5,
+                textAnchor: "middle",
+              },
+            }}
+          />
+
+          {/* Right Y-Axis for days on market */}
+          <VictoryAxis
+            dependentAxis
+            orientation="right"
+            offsetX={50}
+            tickValues={[0, 10, 20, 30, 40].map((x) => x * rightAxisMultiplier)} // Scaled for days
+            tickFormat={(x: any) => `${x / rightAxisMultiplier} D`} // Display original days
+            style={{
+              axis: { stroke: "transparent" },
+              ticks: { stroke: "transparent" },
+              tickLabels: {
+                fill: "#4caf50",
+                fontSize: 10,
+                padding: 5,
+                textAnchor: "start",
+              },
+            }}
+          />
+        </VictoryChart>
+      </View></>
   );
 };
 
 export default Chart;
+
+
+const styles = StyleSheet.create({
+  chartHeading: {
+    textAlign: "left",
+    fontSize: 16,
+    fontWeight: "bold",
+    paddingLeft:14,
+    paddingVertical: 10
+  },
+
+  heading:{
+    textAlign: "left",
+    fontSize: 10,
+    fontWeight: "300",
+    paddingLeft: 14,
+    paddingVertical: 10,
+  }
+});
